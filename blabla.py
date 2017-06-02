@@ -22,4 +22,5 @@ ut[1:,:] = 1
 print(ut)
 #essayons une modif pour voir hahahaha
 
-#tg mon gars
+#et celle là ?
+
