@@ -42,7 +42,7 @@ class SpectralModel :
        elif (self.param_name == 'oscillation' ):
           self.a = -0.02
           self.b = 1000
-          self.e = 0.00003
+          self.e = 1e-5
           self.I = 0
          
 
@@ -119,17 +119,17 @@ class SpectralModel :
       #ut[1:128,1] = 1
 
       #Point haut gauche
-      #ut = np.zeros((self.height, self.width), dtype=float)
-      #ut[:,:] = 0
-      #ut[20,20] = 1
+      ut = np.zeros((self.height, self.width), dtype=float)
+      ut[:,:] = 0
+      ut[20:22,20:22] = 1
 
       #Contour
       #ut = np.zeros((self.height, self.width), dtype=float)
       #ut[:,:] = 0
       #ut[0,:] = 1
-      #ut[127,:] = 1
-      #ut[:,0] = 1
-      #ut[:,255] = 1
+      # ut[127,:] = 1
+      # ut[:,0] = 1
+      # ut[:,255] = 1
       
       vt = np.zeros((self.height, self.width), dtype=float)
       vt[:,:] = 0
@@ -177,7 +177,7 @@ class SpectralModel :
    def step(self):
        if(self.mode == 'ETDFD'):
            Nu, Nv = self.compute_Nu_Nv(self.tf_ut, self.tf_vt)
-           self.tf_ut = self.Eu * self.tf_ut + self.Fu * self.I * self.width * self.height + self.FNu * Nu 
+           self.tf_ut = self.Eu * self.tf_ut + self.Fu * self.I * self.width * self.height + self.FNu * Nu #+ np.fft.fft2(0.025*np.random.random((self.height, self.width))) 
            self.tf_vt = self.Ev * self.tf_vt + self.FNv * Nv  
        elif(self.mode == 'ETDRK4'):
            Nu, Nv = self.compute_Nu_Nv(self.tf_ut, self.tf_vt)
@@ -190,9 +190,9 @@ class SpectralModel :
            cu = self.E2u * au + self.F2u * self.I * self.width * self.height + self.Qu * (2. * Nbu - Nu)
            cv = self.E2v * av + self.Qv * (2. * Nbv - Nv)
            Ncu, Ncv = self.compute_Nu_Nv(cu, cv)
-
-           self.tf_ut = self.Eu * self.tf_ut + self.Fu * self.I * self.width * self.height + self.f1u * Nu + self.f2u * (Nau + Nbu) + self.f3u * Ncu
-           self.tf_vt = self.Ev * self.tf_vt + self.f1v * Nv + self.f2v * (Nav + Nbv) + self.f3v * Ncv
+           
+           self.tf_ut = self.Eu * self.tf_ut + self.Fu * self.I * self.width * self.height + self.f1u * Nu + self.f2u * (Nau + Nbu) + self.f3u * Ncu #+ np.fft.fft2(np.random.random((self.height, self.width)))
+           self.tf_vt = self.Ev * self.tf_vt + self.f1v * Nv + self.f2v * (Nav + Nbv) + self.f3v * Ncv 
 
 
         

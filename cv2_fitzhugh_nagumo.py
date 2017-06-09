@@ -61,7 +61,7 @@ else:
     width = 256
     dt = 2
 display_scaling_factor = 4
-pattern ='oscillation' 
+pattern ='refractory' 
 
 if(mode <= 2):
     model = fitzhugh_nagumo.Model(pattern, width=width, height=height, mode=mode, d=d, dt=dt)
@@ -75,7 +75,7 @@ model.init()
 s_kernel = 11
 kernel_light = np.ones((s_kernel,s_kernel), dtype=np.float)
 kernel_light[:int(2./3 * s_kernel),:int(2./3 * s_kernel)] = -1
-print(kernel_light)
+#print(kernel_light)
 
 mask_light = np.zeros((height, width), np.float32)
 mask_light[0:kernel_light.shape[0], 0:kernel_light.shape[1]] = kernel_light
@@ -120,6 +120,11 @@ def make_effect(u_orig, scale):
 
 u = np.zeros((height, width))
 epoch = 0
+
+depth = np.ones((height, width))
+depth_img = np.zeros((2,2,3), dtype=np.float)
+can_mask = False
+
 N = (height*width)**0.5 
 t0 = time.time()
 frame_id = 0
@@ -127,7 +132,7 @@ while key != ord('q'):
     if(run): 
         model.step()
         u[:,:] = model.get_ut()
-        print(u)
+        #print(u)
         epoch += 1
         if(epoch % 100 == 0):
             t1 = time.time()
