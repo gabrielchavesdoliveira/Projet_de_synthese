@@ -61,7 +61,7 @@ else:
     width = 256
     dt = 2
 display_scaling_factor = 4
-pattern ='refractory' 
+pattern ='oscillation' 
 
 if(mode <= 2):
     model = fitzhugh_nagumo.Model(pattern, width=width, height=height, mode=mode, d=d, dt=dt)

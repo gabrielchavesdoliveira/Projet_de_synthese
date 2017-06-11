@@ -114,14 +114,14 @@ class SpectralModel :
       #ut[ut <= 0] = 0
 
       #Bande  gauche
-      #ut = np.zeros((self.height, self.width), dtype=float)
-      #ut[:,:] = 0
-      #ut[1:128,1] = 1
-
-      #Point haut gauche
       ut = np.zeros((self.height, self.width), dtype=float)
       ut[:,:] = 0
-      ut[20:22,20:22] = 1
+      ut[1:128,1] = 1
+
+      #Point haut gauche
+      #ut = np.zeros((self.height, self.width), dtype=float)
+      #ut[:,:] = 0
+      #ut[20:22,20:22] = 1
 
       #Contour
       #ut = np.zeros((self.height, self.width), dtype=float)
@@ -226,7 +226,7 @@ class Model :
       elif (self.param_name == 'oscillation' ):
          self.a = -0.02
          self.b = 1000
-         self.e = 0.00003
+         self.e = 0.00001
          self.I = 0
 
       
@@ -256,7 +256,7 @@ class Model :
       #ut[:,:] = 0
       #ut[(self.height/2 - dN/2): (self.height/2+dN/2+1), (self.width/2 - dN/2) : (self.width/2+dN/2+1)] = 1
       #ut += self.noise * (2 * np.random.random((self.height, self.width)) - 1)
-      #ut[ut <= 0] = 0
+      #ut[ut < 0] = 0
 
       #Bande  gauche
       ut = np.zeros((self.height, self.width), dtype=float)
@@ -283,13 +283,13 @@ class Model :
       #vt[vt <= 0] = 0
 
       
-      self.vt_1[:,:] = 0
-      self.vt_1[(self.height/2 - dN/2): (self.height/2+dN/2+1), (self.width/2 - dN/2) : (self.width/2+dN/2+1)] = 0
-      self.vt_1 += self.noise * (2 * np.random.random((self.height, self.width)) - 1)
-      self.vt_1[self.vt_1 <= 0] = 0
+      #self.vt_1[:,:] = 0
+      #self.vt_1[(self.height/2 - dN/2): (self.height/2+dN/2+1), (self.width/2 - dN/2) : (self.width/2+dN/2+1)] = 0
+      #self.vt_1 += self.noise * (2 * np.random.random((self.height, self.width)) - 1)
+      #self.vt_1[self.vt_1 <= 0] = 0
 
-      self.vt[:,:] = self.vt_1[:,:]
-      self.ut[:,:] = self.ut_1[:,:]
+      self.vt_1[:,:] = vt[:,:]
+      self.ut_1[:,:] = ut[:,:]
       
 
    def laplacian(self, x):
